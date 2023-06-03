@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RoomCraft</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <script src="../js/backend.js"></script>
+  <div style="margin-top: 1cm;">
+    <div class="login-container">
+      <h1>RoomCraft</h1>
+      <h3 style="text-align: center;">Create New Designer</h3>
+      <form action="/newClient" method="POST">
+        <div>
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+           <label for="phone">Phone:</label>
+           <input type="text" id="phone" name="phone" required>
+        </div>
+        <div>
+           <label for="ccnumber">CC Number:</label>
+           <input type="text" id="cc" name="cc" required>
+        </div>
+        <div>
+          <label for="nif">NIF:</label>
+          <input type="text" id="nif" name="nif" required>
+        </div> 
+        <div>
+            <label for="firm" class="login-label">Firm:</label>
+            <select id="firm" name="firm" required>
+                <option value="" selected disabled>Select Firm</option>
+            </select>
+        </div>
+        <div>
+           <label for="salary">Salary:</label>
+           <input type="text" id="salary" name="salary" required>
+        </div>      
+        <div>
+            <label for="codeE">Employee Code:</label>
+            <input type="text" id="codeE" name="codeE" required>
+        </div> 
+        <div>
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        
+        <button type="create" class="create-client-button-yellow">Create New Designer</button>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

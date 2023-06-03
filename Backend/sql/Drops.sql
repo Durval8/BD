@@ -1,0 +1,15 @@
+DROP TABLE Design_Has;
+DROP TABLE Design_MadeOf;
+DROP TABLE Design_Pieces;
+DROP TABLE Design_Sales;
+DROP TABLE Design_Products;
+DROP TABLE Design_TypeOfProducts;
+DROP TABLE Design_Rooms;
+DROP TABLE Design_TypeStyle;
+DROP TABLE Design_Client;
+DROP TABLE Design_Style;
+DROP TABLE Design_Designer;
+DROP TABLE Design_DesignersFirm;
+DROP TABLE Design_Manufacturer;
+DROP TABLE Design_Company;
+DROP TABLE Design_Person;
