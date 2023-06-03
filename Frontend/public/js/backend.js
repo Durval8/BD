@@ -48,24 +48,4 @@ window.addEventListener('DOMContentLoaded', () => {
     const selectedFirm = firmSelect.value;
     fetchDesignersAndStyles(selectedFirm);
   });
-
-  // Fetch firms when the page loads
-  fetch('/firms')
-    .then(response => response.json())
-    .then(firms => {
-      // Populate firm select box
-      firms.forEach(firmName => {
-        const option = document.createElement('option');
-        option.value = firmName;
-        option.textContent = firmName;
-        firmSelect.appendChild(option);
-      });
-
-      // Trigger the event manually to fetch designers and styles based on the initial selected firm
-      const initialSelectedFirm = firmSelect.value;
-      fetchDesignersAndStyles(initialSelectedFirm);
-    })
-    .catch(error => {
-      console.error(error);
-    });
 });
