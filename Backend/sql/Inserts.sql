@@ -205,17 +205,17 @@ VALUES (981, 273, 'Decrease your carbon footprint', 'Naturalist');
 
 -- select * from Design_Client;
 
-INSERT INTO Design_Designer (EmployeeCode, Person_NIF, Firm_NIF, NumberOfClients)
-VALUES (5, 132512, 123456, 12);
+INSERT INTO Design_Designer (EmployeeCode, Person_NIF, Firm_NIF, NumberOfClients, Salary)
+VALUES (5, 132512, 123456, 12, 333);
 
-INSERT INTO Design_Designer (EmployeeCode, Person_NIF, Firm_NIF, NumberOfClients)
-VALUES (6, 227823, 234567, 9);
+INSERT INTO Design_Designer (EmployeeCode, Person_NIF, Firm_NIF, NumberOfClients, Salary)
+VALUES (6, 227823, 234567, 9, 213);
 
-INSERT INTO Design_Designer (EmployeeCode, Person_NIF, Firm_NIF, NumberOfClients)
-VALUES (7, 563334, 123456, 7);
+INSERT INTO Design_Designer (EmployeeCode, Person_NIF, Firm_NIF, NumberOfClients, Salary)
+VALUES (7, 563334, 123456, 7, 313);
 
-INSERT INTO Design_Designer (EmployeeCode, Person_NIF, Firm_NIF, NumberOfClients)
-VALUES (8, 456945, 234567, 12);
+INSERT INTO Design_Designer (EmployeeCode, Person_NIF, Firm_NIF, NumberOfClients, Salary)
+VALUES (8, 456945, 234567, 12, 430);
 
 -- select * from Design_Designer
 

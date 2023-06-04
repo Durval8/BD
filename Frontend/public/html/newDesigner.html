@@ -10,10 +10,14 @@
     <div class="login-container">
       <h1>RoomCraft</h1>
       <h3 style="text-align: center;">Create New Designer</h3>
-      <form action="/newClient" method="POST">
+      <form action="/newClient" id="newDesigner" method="POST">
         <div>
           <label for="username">Username:</label>
           <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required>
         </div>
         <div>
            <label for="phone">Phone:</label>
@@ -38,19 +42,16 @@
            <input type="text" id="salary" name="salary" required>
         </div>      
         <div>
-            <label for="codeE">Employee Code:</label>
-            <input type="text" id="codeE" name="codeE" required>
+            <label for="code">Employee Code:</label>
+            <input type="text" id="code" name="code" required>
         </div> 
-        <div>
-          <label for="password">Password:</label>
-          <input type="password" id="password" name="password" required>
-        </div>
         
-        <button type="create" class="create-client-button-yellow">Create New Designer</button>
+        <button type="create" id="register" class="create-client-button-yellow">Create New Designer</button>
         <button onclick="window.location.href = 'index.html'" type="button" class="create-client-button">Login</button>
       </form>
     </div>
   </div>
+  <script src="../js/newDesigner.js"></script>
 </body>
 
 </html>
