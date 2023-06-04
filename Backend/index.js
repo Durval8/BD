@@ -37,13 +37,35 @@ app.get('/', (req, res) => {
 
 /* USER AUTHENTICATION */
 app.post('/post_login', async (req,res)=>{
-    const { username, password } = req.body;
-    let query1 = await app.locals.db.query(`select id from UAuthentication where username='${username}' and upass='${password}'; `);
-    if( query1.recordsets[0].length!=1 ) { res.send({status:'error', message:'Wrong username or password.'});return; }
-    let token = hat();
-    let query2 = await app.locals.db.query(`update UAuthentication set utoken='${token}' where id=${query1.recordsets[0][0].id}`);
-    res.send({status:"ok",token});
+    const {username, password, phone, nif, budget, firm} = req.body
+    console.log("firm")
+    console.log(firm)
+    // const { username, password } = req.body;
+    // let query1 = await app.locals.db.query(`select id from UAuthentication where username='${username}' and upass='${password}'; `);
+    // if( query1.recordsets[0].length!=1 ) { res.send({status:'error', message:'Wrong username or password.'});return; }
+    // let token = hat();
+    // let query2 = await app.locals.db.query(`update UAuthentication set utoken='${token}' where id=${query1.recordsets[0][0].id}`);
+    // res.send({status:"ok",token});
 });
+
+app.get('/firms', async (req,res)=>{
+    const resp = await app.locals.db.query('SELECT IName, NIF FROM Design_DesignersFirm INNER JOIN Design_Company ON CompanyNIF = NIF')
+    res.json(resp.recordset);
+    // const { username, password } = req.body;
+    // let query1 = await app.locals.db.query(`select id from UAuthentication where username='${username}' and upass='${password}'; `);
+    // if( query1.recordsets[0].length!=1 ) { res.send({status:'error', message:'Wrong username or password.'});return; }
+    // let token = hat();
+    // let query2 = await app.locals.db.query(`update UAuthentication set utoken='${token}' where id=${query1.recordsets[0][0].id}`);
+    // res.send({status:"ok",token});
+});
+
+app.post('/employees', async (req,res)=>{
+    const {firm} = req.body;
+    console.log(firm)
+    const resp = await app.locals.db.query('select IName, EmployeeCode from (Design_Designer join Design_DesignersFirm on Firm_NIF = '+ firm + ') Join Design_Person on Person_NIF = NIF')
+    res.json(resp.recordset);
+});
+
 app.post('/post_register', async (req,res)=>{
     const { username, email, password } = req.body;
     let query1 = await app.locals.db.query(`select Users.id from UAuthentication inner join Users on UAuthentication.id=Users.id where username='${username}' or email='${email}'; `);

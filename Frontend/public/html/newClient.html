@@ -10,18 +10,18 @@
     <div class="login-container">
       <h1>RoomCraft</h1>
       <h3 style="text-align: center;">Create New Client</h3>
-      <form action="/newClient" method="POST">
+      <form id="newClient">
         <div>
           <label for="username">Username:</label>
           <input type="text" id="username" name="username" required>
         </div>
         <div>
-           <label for="phone">Phone:</label>
-           <input type="text" id="phone" name="phone" required>
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required>
         </div>
         <div>
-           <label for="ccnumber">CC Number:</label>
-           <input type="text" id="cc" name="cc" required>
+           <label for="phone">Phone:</label>
+           <input type="text" id="phone" name="phone" required>
         </div>
         <div>
           <label for="nif">NIF:</label>
@@ -32,31 +32,29 @@
            <input type="text" id="budget" name="budget" required>
         </div>        
         <div>
-          <label for="password">Password:</label>
-          <input type="password" id="password" name="password" required>
-        </div>
-        <div>
           <label for="firm" class="login-label">Firm:</label>
-          <select id="firm" name="firm" required>
+          <select id="firm" name="firm" >
               <option value="" selected disabled>Select Firm</option>
           </select>
         </div>
         <div>
           <label for="employee" class="login-label">Employee:</label>
-          <select id="employee" name="employee" required>
+          <select id="employee" name="employee" >
               <option value="" selected disabled>Select Employee</option>
           </select>
         </div>
         <div>
           <label for="style" class="login-label">Style:</label>
-          <select id="style" name="style" required>
+          <select id="style" name="style" >
               <option value="" selected disabled>Select Style</option>
           </select>
         </div>
+        <button onclick="window.location.href = 'index.html'" type="button" id="login" class="create-client-button create-client-button-yellow">Login</button>
         <button type="create" class="create-client-button">Create New Client</button>
       </form>
     </div>
   </div>
+  <script src="../js/newClient.js"></script>
 </body>
 
 </html>

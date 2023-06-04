@@ -88,7 +88,8 @@ create table Design_MadeOf(
  
 
 create table Design_Rooms(
-	ILocation int not null primary key,
+	id int not NULL PRIMARY KEY,
+	ILocation int not null,
 	Area int not null,
 	Height int not null,
 	Style_code int not null references Design_Style (Code),
@@ -98,9 +99,9 @@ create table Design_Rooms(
 
 
 create table Design_Has(
-	Room_Location int not null references Design_Rooms (ILocation),
+	Room_id int not null references Design_Rooms (id),
 	Product_Code int not null references Design_Products (CodeProduct),
-	primary key (Room_Location,Product_Code)
+	primary key (Room_id,Product_Code)
 );
 
 
