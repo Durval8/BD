@@ -23,6 +23,26 @@ BEGIN
 
     INSERT INTO Design_Client (Person_NIF, Budget, Designer_Code)
     VALUES (@NIF, @budget, @code);
+END
+-- CREATE PROCEDURE GetManufactureProducts
+--     @ManufacturerNIF INT
+-- AS 
+-- BEGIN
+--     SELECT P.CodeProduct, P.IName
+--     FROM Design_Products AS P
+--     WHERE P.Manufacturer_NIF = @ManufacturerNIF
+-- END;
 
-    
-END;
+-- CREATE PROCEDURE GetDesignersAndClientCount
+--     @FirmNIF INT
+-- AS
+-- BEGIN
+--     SELECT
+-- 	P.IName AS DesignerName, D.NumberOfClients
+--     FROM Design_Designer AS D
+--     INNER JOIN Design_Person AS P ON D.Person_NIF = P.NIF
+--     WHERE D.Firm_NIF = @FirmNIF;
+-- END;
+
+
+
