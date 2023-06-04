@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RoomCraft</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <script src="../js/backend.js"></script>
+  <div style="margin-top: 1cm;">
+    <div class="login-container">
+      <h1>RoomCraft</h1>
+      <h3 style="text-align: center;">Create New Room</h3>
+      <form action="/newRooms" method="POST">  
+        <div>
+            <label for="client" class="login-label"></label>
+            <select id="client" name="client" required>
+                <option value="" selected disabled>Select Client</option>
+            </select>
+        </div>
+        <div>
+            <label for="idRoom">ID:</label>
+            <input type="text" id="idRoom" name="idRoom" required>
+        </div>
+        <div>
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" required>
+        </div>
+        <div>
+            <label for="area">Area:</label>
+            <input type="text" id="area" name="area" required>
+        </div>
+        <div>
+            <label for="height">Height:</label>
+            <input type="text" id="height" name="height" required>
+        </div>
+        <button onclick="window.location.href = 'newClient.html'" type="button" class="create-client-button">New Client</button>
+
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

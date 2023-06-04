@@ -11,7 +11,8 @@
       <h1>RoomCraft</h1>
       <h3 style="text-align: center;">Your Rooms History</h3>
       <form action="/showRooms" method="GET">  
-        <button type="create" class="create-client-button">Show All Rooms</button>    
+        <button type="create" class="create-client-button">Show All Rooms</button>  
+        <button onclick="window.location.href = 'createRoom.html'" type="button" id="newRoom" class="create-client-button create-client-button-yellow">New Room</button>  
         <div>
             <label for="rooms" class="login-label"></label>
             <select id="rooms" name="rooms" required>
