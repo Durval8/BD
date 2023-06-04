@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RoomCraft</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <script src="../js/backend.js"></script>
+  <div style="margin-top: 1cm;">
+    <div class="login-container">
+      <h1>RoomCraft</h1>
+      <h3 style="text-align: center;">Display</h3>
+      <form action="/display" method="POST">
+        <div>
+          <label for="identity" class="login-label"></label>
+          <select id="identity" name="identity" required>
+            <option value="" selected disabled>Select your option</option>
+            <option value="manufacturer">Manufacturer</option>
+            <option value="designerfirm">Designer Firm</option>
+          </select>
+        </div>
+        <div>
+          <label for="choose" class="login-label">Name:</label>
+          <select id="choose" name="choose" required>
+              <option value="" selected disabled>Select One</option>
+          </select>
+        </div>
+        <button type="button" class="create-client-button create-client-button-yellow">Show</button>
+        <h5>List:</h5>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

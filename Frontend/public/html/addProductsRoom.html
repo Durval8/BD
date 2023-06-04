@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RoomCraft</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <script src="../js/backend.js"></script>
+  <div style="margin-top: 1cm;">
+    <div class="login-container">
+      <h1>RoomCraft</h1>
+      <h3 style="text-align: center;">Add Products to Rooms</h3>
+      <form action="/addProd" method="POST">
+        <div>
+          <label for="room" class="login-label">Choose Room:</label>
+          <select id="room" name="room" required>
+              <option value="" selected disabled>Select a Room to add Product</option>
+          </select>
+        </div>
+        <div>
+          <label for="product" class="login-label">Add Product:</label>
+          <select id="product" name="product" required>
+              <option value="" selected disabled>Select Product to add</option>
+          </select>
+        </div>
+        <button type="add" class="create-client-button-green">Add</button>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

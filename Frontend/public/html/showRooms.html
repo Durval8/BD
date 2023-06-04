@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RoomCraft</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <script src="../js/backend.js"></script>
+  <div style="margin-top: 1cm;">
+    <div class="login-container">
+      <h1>RoomCraft</h1>
+      <h3 style="text-align: center;">Your Rooms History</h3>
+      <form action="/showRooms" method="GET">  
+        <button type="create" class="create-client-button">Show All Rooms</button>    
+        <div>
+            <label for="rooms" class="login-label"></label>
+            <select id="rooms" name="rooms" required>
+                <option value="" selected disabled>Select Room</option>
+            </select>
+        </div>
+        <h5>Rooms List:</h5>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>
