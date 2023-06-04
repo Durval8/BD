@@ -1,30 +1,63 @@
 const form = document.getElementById('newClient');
-let login_btn = document.getElementById('login');
+let register_btn = document.getElementById('register');
 
 const firmSelect = document.getElementById('firm');
+const employeeSelect = document.getElementById('employee');
+let selectedFirm = 0;
+let selectedEmployee = 0;
+firmSelect.innerHTML = ""
+
 
 // Add event listener to the firm select element
 firmSelect.addEventListener('click', () => {
-  const selectedFirm = firmSelect.value;  // Get the selected value of the firm
+  selectedFirm = firmSelect.value;  // Get the selected value of the firm
   // Use the selected value as needed
+  employeeSelect.innerHTML=""
+  if(selectedFirm != 0){
+    const data = {firm: selectedFirm}
+    console.log(JSON.stringify(data))
+
+    fetch("http://127.0.0.1:5004/employees", {
+      method: 'POST',
+      headers: {
+				'Content-Type': 'application/json'
+			},
+      body: JSON.stringify({firm: selectedFirm})
+  }).then(response => response.json()).then(employees =>{
+    console.log(employees)
+
+    employees.forEach(employee => {
+      const option = document.createElement('option');
+      option.value = employee.EmployeeCode
+      option.textContent = employee.IName
+      employeeSelect.appendChild(option)
+    })
+  })
+  }
   console.log('Selected firm:', selectedFirm);
 });
 
-login_btn.addEventListener('click', (event) => {
+register_btn.addEventListener('click', (event) => {
     event.preventDefault();
+    selectedEmployee = employeeSelect.value
     const formData = new FormData(form);
-    console.log(formData.get('firm'))
+    console.log(selectedEmployee)
     const data = {
       username: formData.get('username'),
       password: formData.get('password'),
       phone: formData.get('phone'),
       nif: formData.get('nif'),
       budget: formData.get('budget'),
-      firm: formData.get('firm')
+      firm: selectedFirm,
+      employee: selectedEmployee
+      // style: styleSelect.value
     };
 
-    fetch("http://127.0.0.1:5004/post_login", {
+    fetch("http://127.0.0.1:5004/post_register_client", {
         method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify(data)
     });
 })
@@ -32,8 +65,9 @@ login_btn.addEventListener('click', (event) => {
 fetch("http://127.0.0.1:5004/firms", {
         method: "GET"
     }).then(response =>response.json()).then(firms =>{
-      const firmSelect = document.getElementById('firm');
+      
       console.log(firms)
+      // const firmSelect = document.getElementById('firm');
     // Populate the select element with the fetched firms
       firms.forEach(firm => {
         const option = document.createElement('option');
@@ -43,5 +77,38 @@ fetch("http://127.0.0.1:5004/firms", {
       });
     });
 
+  
+// styleSelect.addEventListener('click', async() => {
+//   console.log(selectedFirm)
+//   styleSelect.innerHTML=""
+//   if(selectedFirm != 0){
+//     const data = {firm: selectedFirm}
+//     console.log(JSON.stringify(data))
+
+//     let response = await fetch("http://127.0.0.1:5004/styles", {
+//       method: 'POST',
+//       headers: {
+// 				'Content-Type': 'application/json'
+// 			},
+//       body: JSON.stringify({firm: selectedFirm})
+//   }).then(response => response.json()).then(styles =>{
+//     console.log(styles)
+
+//     styles.forEach(style => {
+//       const option = document.createElement('option');
+//       option.value = style.Style_Code
+//       option.textContent = style.IName
+//       styleSelect.appendChild(option)
+//     })
+//   })
+//   }
+// });
+
+employeeSelect.addEventListener('click', async() => {
+  console.log(selectedEmployee)
+  // employeeSelect.innerHTML=""
+  selectedEmployee = employeeSelect.value
+ 
+});
 // const firms = r.json();
 // console.log(firms)

@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
 app.post('/post_login', async (req,res)=>{
     const {username, password, phone, nif, budget, firm} = req.body
     console.log("firm")
-    console.log(firm)
+    
     // const { username, password } = req.body;
     // let query1 = await app.locals.db.query(`select id from UAuthentication where username='${username}' and upass='${password}'; `);
     // if( query1.recordsets[0].length!=1 ) { res.send({status:'error', message:'Wrong username or password.'});return; }
@@ -61,25 +61,36 @@ app.get('/firms', async (req,res)=>{
 
 app.post('/employees', async (req,res)=>{
     const {firm} = req.body;
-    console.log(firm)
-    const resp = await app.locals.db.query('select IName, EmployeeCode from (Design_Designer join Design_DesignersFirm on Firm_NIF = '+ firm + ') Join Design_Person on Person_NIF = NIF')
+    const resp = await app.locals.db.query('select IName, EmployeeCode from Design_Person join (select * from Design_Designer where Firm_NIF = ' + firm + ') as F on NIF = F.Person_NIF')
+    console.log(resp)
     res.json(resp.recordset);
 });
 
-app.post('/post_register', async (req,res)=>{
-    const { username, email, password } = req.body;
-    let query1 = await app.locals.db.query(`select Users.id from UAuthentication inner join Users on UAuthentication.id=Users.id where username='${username}' or email='${email}'; `);
-    if( query1.recordsets[0].length!=0 ) { res.send({status:'error', message:'Username or email already exist.'});return; }
-    let token = hat();
-    let query2 = await app.locals.db.query(`
-        BEGIN TRANSACTION;
-        DECLARE @GeneratedID INT;
-        INSERT INTO Users (email) VALUES ('${email}');
-        SET @GeneratedID = SCOPE_IDENTITY();
-        INSERT INTO UAuthentication (id, username, upass, utoken) VALUES (@GeneratedID, '${username}', '${password}', '${token}');
-        COMMIT;
-    `);
-    res.send({status:"ok",token});
+app.post('/styles', async (req,res)=>{
+    const {firm} = req.body;
+    const resp = await app.locals.db.query('select IName, Style_Code from Design_TypeStyle join (select * from Design_Style where Firm_NIF = '+ firm +') as F on Style_Code = F.Code')
+    console.log(resp)
+    res.json(resp.recordset);
+});
+
+app.post('/post_register_client', async (req,res)=>{
+    const {username, password, phone, nif, budget, firm, employee} = req.body
+    console.log(req.body)
+    const resp = await app.locals.db.query('exec InsertClient @firstName = ' + username + ', @password = ' + password + ', @cellphone = ' + phone + ', @NIF = ' + nif + ', @budget = ' + budget + ', @code = '+ employee);
+    console.log(req.body)
+    // const { username, email, password } = req.body;
+    // let query1 = await app.locals.db.query(`select Users.id from UAuthentication inner join Users on UAuthentication.id=Users.id where username='${username}' or email='${email}'; `);
+    // if( query1.recordsets[0].length!=0 ) { res.send({status:'error', message:'Username or email already exist.'});return; }
+    // let token = hat();
+    // let query2 = await app.locals.db.query(`
+    //     BEGIN TRANSACTION;
+    //     DECLARE @GeneratedID INT;
+    //     INSERT INTO Users (email) VALUES ('${email}');
+    //     SET @GeneratedID = SCOPE_IDENTITY();
+    //     INSERT INTO UAuthentication (id, username, upass, utoken) VALUES (@GeneratedID, '${username}', '${password}', '${token}');
+    //     COMMIT;
+    // `);
+    // res.send({status:"ok",token});
 });
 
 /* USER PROFILE */
