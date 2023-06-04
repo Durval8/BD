@@ -32,7 +32,8 @@ create table Design_Designer(
 	EmployeeCode int not null primary key,
 	Person_NIF int references Design_Person (NIF),
 	Firm_NIF int not null references Design_DesignersFirm (CompanyNIF),
-	NumberOfClients int not null
+	NumberOfClients int not null,
+	Salary int not NULL
 );
 
 
