@@ -37,8 +37,10 @@ app.get('/', (req, res) => {
 
 /* USER AUTHENTICATION */
 app.post('/post_login', async (req,res)=>{
-    const {username, password, phone, nif, budget, firm} = req.body
-    console.log("firm")
+    const {username, password} = req.body
+    console.log("EEEE")
+    // const result = await app.locals.db.query('SELECT dbo.LoginUser('+ username +', ' + password + ') AS Result')
+    // res.json(result.recordset[0].Result)
     
     // const { username, password } = req.body;
     // let query1 = await app.locals.db.query(`select id from UAuthentication where username='${username}' and upass='${password}'; `);
@@ -49,7 +51,7 @@ app.post('/post_login', async (req,res)=>{
 });
 
 app.get('/firms', async (req,res)=>{
-    const resp = await app.locals.db.query('SELECT IName, NIF FROM Design_DesignersFirm INNER JOIN Design_Company ON CompanyNIF = NIF')
+    const resp = await app.locals.db.query('SELECT * FROM Firms')
     res.json(resp.recordset);
 });
 
