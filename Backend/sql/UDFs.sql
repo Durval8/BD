@@ -30,3 +30,16 @@
 --     RETURN @TotalNumberOfClients;
 -- END
 
+CREATE FUNCTION LoginUser(
+    @username VARCHAR(256),
+    @password VARCHAR(128)
+)
+RETURNS INT
+AS
+BEGIN 
+    DECLARE @users INT
+
+    SELECT @users = COUNT(*) FROM Design_Person WHERE IName = @username AND IPassword = @password;
+
+    RETURN @users;
+END;

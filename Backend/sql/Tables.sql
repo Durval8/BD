@@ -110,7 +110,7 @@ create table Design_Sales(
 	Product_code int not null references Design_Products (CodeProduct),
 	Designer_code int not null references Design_Designer (EmployeeCode),
 	Amount int not null,
-	Date Date not null,
+	IDate Date not null,
 	Discount int not null,
 	primary key (Product_code, Designer_code)
 )

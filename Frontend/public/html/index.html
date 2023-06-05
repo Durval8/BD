@@ -9,8 +9,7 @@
     <div class="login-container">
       <h1>RoomCraft</h1>
       <h3 style="text-align: center;">Login</h3>
-      <form action="/login" method="POST">
-      <form>
+      <form action="/login" id="login" method="POST">
         <div>
           <label for="role" class="login-label">Role:</label>
           <select id="role" name="role" required>
@@ -27,7 +26,7 @@
           <label for="password">Password:</label>
           <input type="password" id="password" name="password" required>
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" id="loginBtn">Login</button>
         <button onclick="window.location.href = 'newClient.html'" type="button" class="create-client-button">New Client</button>
         <button onclick="window.location.href = 'newDesigner.html'" type="button" class="create-client-button create-client-button-yellow">New Designer</button>
       </form>
