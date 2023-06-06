@@ -77,9 +77,8 @@ app.post('/products', async (req,res)=>{
 app.post('/has', async (req,res)=>{
     console.log(req.body)
     console.log("EUW")
-    const {product, room} = req.body;
-    console.log(product + " d o new " + room)
-    const resp = await app.locals.db.query('insert into Design_Has (Room_id, Product_Code) values (' + room + ', ' + product + ');')
+    const {productCode, roomCode} = req.body;
+    const resp = await app.locals.db.query('insert into Design_Has (Room_id, Product_Code) values (' + roomCode + ', ' + productCode + ');')
     console.log(resp)
     res.json(resp.recordset);
 });
@@ -202,6 +201,28 @@ app.post('/post_view_table', async (req,res)=>{
     let id = query1.recordset[0].id;
     let query2 = await app.locals.db.query(`select * from ${table_name} where user_id=${id};`);
     res.send(query2.recordset)
+});
+
+app.get('/search', (req, res) => {
+    const {table, input, id} = req.body
+  
+    // Execute the SQL query
+    const query = `SELECT * FROM '%${table}%' WHERE IName LIKE '%${input}%' and Designer_Code = '%${id}`;
+    connection.query(query, (error, results) => {
+      if (error) {
+        res.status(500).send('Error executing the query');
+      } else {
+        res.send(results);
+      }
+    });
+  });
+
+app.post('/post_delete_client', async (req,res)=>{
+    const {name} = req.body
+    console.log(req.body)
+    console.log("HERE")
+    const resp = await app.locals.db.query('DELETE FROM Design_Client WHERE Person_NIF IN (SELECT NIF FROM Design_Person WHERE IName = ' + name + ');');
+    console.log(resp)
 });
 
 

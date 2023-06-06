@@ -140,3 +140,19 @@ body {
   .login-container .create-client-button-green:hover {
     background-color: #0e8a16;
   }
+
+  .login-container .create-client-button2 {
+    background-color: #e01313;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 8px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .login-container .create-client-button2:hover {
+    background-color: #aa130e;
+  }
+  

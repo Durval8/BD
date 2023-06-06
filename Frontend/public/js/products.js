@@ -49,8 +49,8 @@ add_btn.addEventListener('click', () => {
     const data = {
         productCode: productSelect.value,
         roomCode: roomSelect.value
-    }
-
+    };
+    console.log(data)
     fetch("http://127.0.0.1:5004/has", {
         method: 'POST',
         headers: {
