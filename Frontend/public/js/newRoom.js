@@ -1,3 +1,4 @@
+let t_btn = document.getElementById('nextPage');
 const form = document.getElementById("newRoom")
 let create_btn = document.getElementById('createRoom')
 const clientSelect = document.getElementById('client');
@@ -52,6 +53,7 @@ fetch("http://127.0.0.1:5004/clients", {
 create_btn.addEventListener('click', () => {
     const formData = new FormData(form)
     const data = {
+        name: '\'' + formData.get('name') + '\'',
         area: formData.get('area'),
         height: formData.get('height'),
         style: styleSelect.value,
@@ -67,3 +69,8 @@ create_btn.addEventListener('click', () => {
         body: JSON.stringify(data)
     })
 })
+
+// t_btn.addEventListener('click', () => {
+//     window.location.href = "addProductsRoom.html"
+//   })
+  

@@ -53,8 +53,8 @@ app.post('/post_login', async (req,res)=>{
 app.post('/post_room', async (req,res) => {
     console.log(req.body)
     const randomInt = Math.floor(Math.random() * 100) + 1;
-    const {area, height, style, client, designer, type} = req.body
-    const resp = await app.locals.db.query('insert into Design_Rooms (id, Area, Height, Style_Code, Client_NIF, Designer_Code, TypeProduct) Values (' + randomInt + ', ' + area + ', ' + height + ', ' + style + ', ' + client + ', ' + designer + ', ' + type + ');')
+    const {name, area, height, style, client, designer, type} = req.body
+    const resp = await app.locals.db.query('insert into Design_Rooms (id, IName, Area, Height, Style_Code, Client_NIF, Designer_Code, TypeProduct) Values (' + randomInt + ', ' + name + ', ' + area + ', ' + height + ', ' + style + ', ' + client + ', ' + designer + ', ' + type + ');')
 })
 
 app.get('/firms', async (req,res)=>{
@@ -64,6 +64,23 @@ app.get('/firms', async (req,res)=>{
 
 app.get('/typeProduct', async (req,res)=>{
     const resp = await app.locals.db.query('SELECT * FROM Design_TypeOfProducts')
+    res.json(resp.recordset);
+});
+
+app.post('/products', async (req,res)=>{
+    const {room} = req.body;
+    const resp = await app.locals.db.query('select IName, CodeProduct from Design_Products where Type_Code = (select TypeProduct from Design_Rooms where id = ' + room + ')')
+    console.log(resp)
+    res.json(resp.recordset);
+});
+
+app.post('/has', async (req,res)=>{
+    console.log(req.body)
+    console.log("EUW")
+    const {product, room} = req.body;
+    console.log(product + " d o new " + room)
+    const resp = await app.locals.db.query('insert into Design_Has (Room_id, Product_Code) values (' + room + ', ' + product + ');')
+    console.log(resp)
     res.json(resp.recordset);
 });
 
@@ -84,6 +101,13 @@ app.post('/clients', async (req,res)=>{
 app.post('/styles', async (req,res)=>{
     const {employee} = req.body;
     const resp = await app.locals.db.query('select IName, Style_Code from Design_TypeStyle join (select * from Design_Style where Firm_NIF =  (Select Firm_NIF from Design_Designer Where EmployeeCode = ' + employee + ')) as F on Style_Code = F.Code')
+    console.log(resp)
+    res.json(resp.recordset);
+});
+
+app.post('/rooms', async (req,res)=>{
+    const {employee} = req.body;
+    const resp = await app.locals.db.query('select IName, id from Design_Rooms where Designer_Code = ' + employee)
     console.log(resp)
     res.json(resp.recordset);
 });

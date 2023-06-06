@@ -90,6 +90,7 @@ create table Design_MadeOf(
 
 create table Design_Rooms(
 	id int not NULL PRIMARY KEY,
+	IName CHAR(128) NOT NULL,
 	Area int not null,
 	Height int not null,
 	Style_code int not null references Design_Style (Code),
