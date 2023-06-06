@@ -5,12 +5,11 @@
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-  <script src="../js/backend.js"></script>
   <div style="margin-top: 1cm;">
     <div class="login-container">
       <h1>RoomCraft</h1>
       <h3 style="text-align: center;">Create New Room</h3>
-      <form action="/newRooms" method="POST">  
+      <form action="/newRooms" id="newRoom" method="POST">  
         <div>
             <label for="client" class="login-label"></label>
             <select id="client" name="client" required>
@@ -18,9 +17,17 @@
             </select>
         </div>
         <div>
-            <label for="idRoom">ID:</label>
-            <input type="text" id="idRoom" name="idRoom" required>
+          <label for="typeProduct" class="login-label"></label>
+          <select id="typeProduct" name="typeProduct" required>
+              <option value="" selected disabled>Select Product Type</option>
+          </select>
         </div>
+        <div>
+          <label for="style" class="login-label"></label>
+          <select id="style" name="style" required>
+              <option value="" selected disabled>Select Style</option>
+          </select>
+        </div>  
         <div>
             <label for="location">Location:</label>
             <input type="text" id="location" name="location" required>
@@ -33,11 +40,12 @@
             <label for="height">Height:</label>
             <input type="text" id="height" name="height" required>
         </div>
-        <button onclick="window.location.href = 'newClient.html'" type="button" class="create-client-button">New Client</button>
+        <button id="createRoom" type="button" class="create-client-button">New Room</button>
 
       </form>
     </div>
   </div>
+  <script src="../js/newRoom.js"></script>
 </body>
 
 </html>

@@ -5,12 +5,12 @@
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-  <script src="../js/backend.js"></script>
+  <script src="../js/products.js"></script>
   <div style="margin-top: 1cm;">
     <div class="login-container">
       <h1>RoomCraft</h1>
       <h3 style="text-align: center;">Add Products to Rooms</h3>
-      <form action="/addProd" method="POST">
+      <form action="/addProd" id="addProduct" method="POST">
         <div>
           <label for="room" class="login-label">Choose Room:</label>
           <select id="room" name="room" required>

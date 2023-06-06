@@ -50,8 +50,20 @@ app.post('/post_login', async (req,res)=>{
     // res.send({status:"ok",token});
 });
 
+app.post('/post_room', async (req,res) => {
+    console.log(req.body)
+    const randomInt = Math.floor(Math.random() * 100) + 1;
+    const {area, height, style, client, designer, type} = req.body
+    const resp = await app.locals.db.query('insert into Design_Rooms (id, Area, Height, Style_Code, Client_NIF, Designer_Code, TypeProduct) Values (' + randomInt + ', ' + area + ', ' + height + ', ' + style + ', ' + client + ', ' + designer + ', ' + type + ');')
+})
+
 app.get('/firms', async (req,res)=>{
     const resp = await app.locals.db.query('SELECT * FROM Firms')
+    res.json(resp.recordset);
+});
+
+app.get('/typeProduct', async (req,res)=>{
+    const resp = await app.locals.db.query('SELECT * FROM Design_TypeOfProducts')
     res.json(resp.recordset);
 });
 
@@ -62,9 +74,16 @@ app.post('/employees', async (req,res)=>{
     res.json(resp.recordset);
 });
 
+app.post('/clients', async (req,res)=>{
+    const {employee} = req.body;
+    const resp = await app.locals.db.query('select IName, Person_NIF from Design_Person join (select * from Design_Client where Designer_Code = ' + employee + ') as f on NIF = f.Person_NIF ')
+    console.log(resp)
+    res.json(resp.recordset);
+});
+
 app.post('/styles', async (req,res)=>{
-    const {firm} = req.body;
-    const resp = await app.locals.db.query('select IName, Style_Code from Design_TypeStyle join (select * from Design_Style where Firm_NIF = '+ firm +') as F on Style_Code = F.Code')
+    const {employee} = req.body;
+    const resp = await app.locals.db.query('select IName, Style_Code from Design_TypeStyle join (select * from Design_Style where Firm_NIF =  (Select Firm_NIF from Design_Designer Where EmployeeCode = ' + employee + ')) as F on Style_Code = F.Code')
     console.log(resp)
     res.json(resp.recordset);
 });
@@ -72,8 +91,9 @@ app.post('/styles', async (req,res)=>{
 app.post('/post_register_client', async (req,res)=>{
     const {username, password, phone, nif, budget, firm, employee} = req.body
     console.log(req.body)
+    console.log("HERE")
     const resp = await app.locals.db.query('exec InsertClient @firstName = ' + username + ', @password = ' + password + ', @cellphone = ' + phone + ', @NIF = ' + nif + ', @budget = ' + budget + ', @code = '+ employee);
-    console.log(req.body)
+    console.log(resp)
 });
 
 app.post('/post_register_designer', async (req,res)=>{
