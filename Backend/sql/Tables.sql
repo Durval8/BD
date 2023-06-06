@@ -60,7 +60,7 @@ create table Design_Products(
 );
 
 
-create table Design_Style(
+create table Design_Style(	
 	Code int not null primary key,
 	Firm_NIF int not null references Design_DesignersFirm (CompanyNIF)
 );
@@ -90,12 +90,14 @@ create table Design_MadeOf(
 
 create table Design_Rooms(
 	id int not NULL PRIMARY KEY,
-	ILocation int not null,
+	IName CHAR(128) NOT NULL,
 	Area int not null,
 	Height int not null,
 	Style_code int not null references Design_Style (Code),
 	Client_NIF int not null references Design_Client (Person_NIF),
-	Designer_Code int not null references Design_Designer (EmployeeCode)
+	Designer_Code int not null references Design_Designer (EmployeeCode),
+	Cost int,
+	TypeProduct int not null REFERENCES Design_TypeOfProducts (CodeType)
 );
 
 

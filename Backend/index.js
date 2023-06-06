@@ -50,8 +50,36 @@ app.post('/post_login', async (req,res)=>{
     // res.send({status:"ok",token});
 });
 
+app.post('/post_room', async (req,res) => {
+    console.log(req.body)
+    const randomInt = Math.floor(Math.random() * 100) + 1;
+    const {name, area, height, style, client, designer, type} = req.body
+    const resp = await app.locals.db.query('insert into Design_Rooms (id, IName, Area, Height, Style_Code, Client_NIF, Designer_Code, TypeProduct) Values (' + randomInt + ', ' + name + ', ' + area + ', ' + height + ', ' + style + ', ' + client + ', ' + designer + ', ' + type + ');')
+})
+
 app.get('/firms', async (req,res)=>{
     const resp = await app.locals.db.query('SELECT * FROM Firms')
+    res.json(resp.recordset);
+});
+
+app.get('/typeProduct', async (req,res)=>{
+    const resp = await app.locals.db.query('SELECT * FROM Design_TypeOfProducts')
+    res.json(resp.recordset);
+});
+
+app.post('/products', async (req,res)=>{
+    const {room} = req.body;
+    const resp = await app.locals.db.query('select IName, CodeProduct from Design_Products where Type_Code = (select TypeProduct from Design_Rooms where id = ' + room + ')')
+    console.log(resp)
+    res.json(resp.recordset);
+});
+
+app.post('/has', async (req,res)=>{
+    console.log(req.body)
+    console.log("EUW")
+    const {productCode, roomCode} = req.body;
+    const resp = await app.locals.db.query('insert into Design_Has (Room_id, Product_Code) values (' + roomCode + ', ' + productCode + ');')
+    console.log(resp)
     res.json(resp.recordset);
 });
 
@@ -62,9 +90,23 @@ app.post('/employees', async (req,res)=>{
     res.json(resp.recordset);
 });
 
+app.post('/clients', async (req,res)=>{
+    const {employee} = req.body;
+    const resp = await app.locals.db.query('select IName, Person_NIF from Design_Person join (select * from Design_Client where Designer_Code = ' + employee + ') as f on NIF = f.Person_NIF ')
+    console.log(resp)
+    res.json(resp.recordset);
+});
+
 app.post('/styles', async (req,res)=>{
-    const {firm} = req.body;
-    const resp = await app.locals.db.query('select IName, Style_Code from Design_TypeStyle join (select * from Design_Style where Firm_NIF = '+ firm +') as F on Style_Code = F.Code')
+    const {employee} = req.body;
+    const resp = await app.locals.db.query('select IName, Style_Code from Design_TypeStyle join (select * from Design_Style where Firm_NIF =  (Select Firm_NIF from Design_Designer Where EmployeeCode = ' + employee + ')) as F on Style_Code = F.Code')
+    console.log(resp)
+    res.json(resp.recordset);
+});
+
+app.post('/rooms', async (req,res)=>{
+    const {employee} = req.body;
+    const resp = await app.locals.db.query('select IName, id from Design_Rooms where Designer_Code = ' + employee)
     console.log(resp)
     res.json(resp.recordset);
 });
@@ -72,8 +114,9 @@ app.post('/styles', async (req,res)=>{
 app.post('/post_register_client', async (req,res)=>{
     const {username, password, phone, nif, budget, firm, employee} = req.body
     console.log(req.body)
+    console.log("HERE")
     const resp = await app.locals.db.query('exec InsertClient @firstName = ' + username + ', @password = ' + password + ', @cellphone = ' + phone + ', @NIF = ' + nif + ', @budget = ' + budget + ', @code = '+ employee);
-    console.log(req.body)
+    console.log(resp)
 });
 
 app.post('/post_register_designer', async (req,res)=>{
@@ -158,6 +201,28 @@ app.post('/post_view_table', async (req,res)=>{
     let id = query1.recordset[0].id;
     let query2 = await app.locals.db.query(`select * from ${table_name} where user_id=${id};`);
     res.send(query2.recordset)
+});
+
+app.get('/search', (req, res) => {
+    const {table, input, id} = req.body
+  
+    // Execute the SQL query
+    const query = `SELECT * FROM '%${table}%' WHERE IName LIKE '%${input}%' and Designer_Code = '%${id}`;
+    connection.query(query, (error, results) => {
+      if (error) {
+        res.status(500).send('Error executing the query');
+      } else {
+        res.send(results);
+      }
+    });
+  });
+
+app.post('/post_delete_client', async (req,res)=>{
+    const {name} = req.body
+    console.log(req.body)
+    console.log("HERE")
+    const resp = await app.locals.db.query('DELETE FROM Design_Client WHERE Person_NIF IN (SELECT NIF FROM Design_Person WHERE IName = ' + name + ');');
+    console.log(resp)
 });
 
 

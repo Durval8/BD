@@ -1,6 +1,6 @@
 const form = document.getElementById('newClient');
 let register_btn = document.getElementById('register');
-
+let t_btn = document.getElementById('nextPage');
 const firmSelect = document.getElementById('firm');
 const employeeSelect = document.getElementById('employee');
 let selectedFirm = 0;
@@ -52,14 +52,23 @@ register_btn.addEventListener('click', (event) => {
       employee: selectedEmployee
       // style: styleSelect.value
     };
-
     fetch("http://127.0.0.1:5004/post_register_client", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
-    });
+    }).then(() => {
+      localStorage.setItem("employeeID", selectedEmployee)
+      console.log(localStorage.getItem('employeeID'))
+      console.log("EKEKRKRK")
+      
+    })
+    .catch(error => console.error('An error occurred while registering:', error));
+})
+
+t_btn.addEventListener('click', () => {
+  window.location.href = "createRoom.html"
 })
 
 fetch("http://127.0.0.1:5004/firms", {
