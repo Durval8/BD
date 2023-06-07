@@ -9,34 +9,25 @@
     <div class="login-container">
       <h1>RoomCraft</h1>
       <h3 style="text-align: center;">Create New Room</h3>
-      <form id="newRoom">  
+      <form id="newRoom" method="POST">  
         <div>
             <label for="client" class="login-label"></label>
             <select id="client" name="client" required>
                 <option value="" selected disabled>Select Client</option>
             </select>
         </div>
-        <!-- <div>
-          <input type="text" id="typeProductSearch" onkeyup="searchOptions('typeProductButtons', 'typeProductSearch')" placeholder="Search for Type Product...">
-          <label for="typeProduct" class="login-label"></label>
-          
-            
-          </div>
-           -->
-        <!-- </div> -->
         <div>
-          <form id="searchFormStyle">
-            <input type="text" id="searchInputStyle" placeholder="Enter your search Style">
-            <input type="submit" value="Search" id="ww">
-          </form>
-          
-          <!-- <div id="typeProductButtons">            -->
-          <label for="style" class="login-label"></label>
-          <div id="styleButtons">
-           
-          </div>
-          
+          <label for="typeProduct" class="login-label"></label>
+          <select id="typeProduct" name="typeProduct" required>
+              <option value="" selected disabled>Select Product Type</option>
+          </select>
         </div>
+        <div>
+          <label for="style" class="login-label"></label>
+          <select id="style" name="style" required>
+              <option value="" selected disabled>Select Style</option>
+          </select>
+        </div>  
         <div>
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required>
@@ -50,12 +41,11 @@
             <input type="text" id="height" name="height" required>
         </div>
         <button id="createRoom" type="button" class="create-client-button">New Room</button>
-        <button id="nextPage" class="create-client-button">Go to next page</button>
+        <button type="create" href="addProductsRoom.html" id="nextPage" class="create-client-button">Go to next page</button>
       </form>
     </div>
   </div>
   <script src="../js/newRoom.js"></script>
-  
 </body>
 
 </html>

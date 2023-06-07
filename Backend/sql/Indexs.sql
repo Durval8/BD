@@ -2,3 +2,5 @@ CREATE INDEX INDEX_Design_Manufacturer_Company_NIF ON Design_Manufacturer(Compan
 
 --select * from Design_DesignersFirm where CompanyNIF=123456
 CREATE INDEX INDEX_Design_DesginersFirm_Company_NIF ON Design_DesignersFirm(CompanyNIF);
+
+CREATE INDEX Design_Person_Cli ON Clients(NIF);

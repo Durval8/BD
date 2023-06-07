@@ -1,34 +1,34 @@
--- CREATE FUNCTION CalculateTotalPriceByManufacturer
--- (
---     @ManufacturerNIF INT
--- )
--- RETURNS INT
--- AS
--- BEGIN
---     DECLARE @TotalPrice INT;
+CREATE FUNCTION CalculateTotalPriceByManufacturer
+(
+    @ManufacturerNIF INT
+)
+RETURNS INT
+AS
+BEGIN
+    DECLARE @TotalPrice INT;
 
---     SELECT @TotalPrice = SUM(P.Quantity * P.Price)
---     FROM Design_Products AS P
---     WHERE P.Manufacturer_NIF = @ManufacturerNIF;
+    SELECT @TotalPrice = SUM(P.Quantity * P.Price)
+    FROM Design_Products AS P
+    WHERE P.Manufacturer_NIF = @ManufacturerNIF;
 
---     RETURN @TotalPrice;
--- END
+    RETURN @TotalPrice;
+END
 
--- CREATE FUNCTION CalculateTotalNumberOfClientsByFirm
--- (
---     @DesignerFirmNIF INT
--- )
--- RETURNS INT
--- AS
--- BEGIN
---     DECLARE @TotalNumberOfClients INT;
+CREATE FUNCTION CalculateTotalNumberOfClientsByFirm
+(
+    @DesignerFirmNIF INT
+)
+RETURNS INT
+AS
+BEGIN
+    DECLARE @TotalNumberOfClients INT;
 
---     SELECT @TotalNumberOfClients = SUM(D.NumberOfClients)
---     FROM Design_Designer AS D
---     WHERE D.Firm_NIF = @DesignerFirmNIF;
+    SELECT @TotalNumberOfClients = SUM(D.NumberOfClients)
+    FROM Design_Designer AS D
+    WHERE D.Firm_NIF = @DesignerFirmNIF;
 
---     RETURN @TotalNumberOfClients;
--- END
+    RETURN @TotalNumberOfClients;
+END
 
 CREATE FUNCTION LoginUser(
     @username VARCHAR(256),

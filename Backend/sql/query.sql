@@ -1,0 +1,1 @@
+select IName, Person_NIF from Design_Person join Design_Client on NIF = Person_NIF 

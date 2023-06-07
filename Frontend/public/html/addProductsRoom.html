@@ -9,7 +9,21 @@
     <div class="login-container">
       <h1>RoomCraft</h1>
       <h3 style="text-align: center;">Add Products to Rooms</h3>
-      <form action="/addProd" id="addProduct" method="POST">
+      <div>
+        <label for="filterInput">Filter:</label>
+        <input type="text" id="filterInput" placeholder="Enter search term">
+        <button onclick="applyFilter()">Apply Filter</button>
+      </div>
+      <div>
+        <label for="sortSelect">Sort By:</label>
+        <select id="sortSelect" onchange="applySort()">
+          <option value="">Default</option>
+          <option value="room_number">Room Number</option>
+          <option value="room_name">Room Name</option>
+        </select>
+      </div>
+      <ul id="roomList"></ul>
+      <!-- <form id="addProduct" method="POST">
         <div>
           <label for="room" class="login-label">Choose Room:</label>
           <select id="room" name="room" required>
@@ -23,7 +37,7 @@
           </select>
         </div>
         <button type="button" id="add" class="create-client-button-green">Add</button>
-      </form>
+      </form> -->
     </div>
   </div>
   <script src="../js/products.js"></script>
