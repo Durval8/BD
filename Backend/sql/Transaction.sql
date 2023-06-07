@@ -16,22 +16,18 @@ WHERE H.Room_id = @RoomID
 GROUP BY H.Room_id
 INTO @RoomCost;
 
--- Retrieve the client's budget
 SELECT Budget
 INTO @ClientBudget
 FROM Design_Client
 WHERE Person_NIF = @ClientNIF;
 
--- Check if the room cost is within the client's budget
 IF @RoomCost IS NULL OR @RoomCost > @ClientBudget
 BEGIN
-    -- Room cost exceeds the budget, rollback the transaction
     ROLLBACK;
     PRINT 'Room cost exceeds the client''s budget.';
 END
 ELSE
 BEGIN
-    -- Room cost is within the budget, commit the transaction
     COMMIT;
     PRINT 'Room cost is within the client''s budget.';
 END

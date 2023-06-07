@@ -59,6 +59,8 @@ register_btn.addEventListener('click', (event) => {
         },
         body: JSON.stringify(data)
     }).then(() => {
+      localStorage.clear()
+      console.log("CLELEL")
       localStorage.setItem("employeeID", selectedEmployee)
       console.log(localStorage.getItem('employeeID'))
       console.log("EKEKRKRK")

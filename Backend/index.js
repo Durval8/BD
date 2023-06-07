@@ -3,13 +3,6 @@ import sql from 'mssql';
 import cors from 'cors';
 import hat from 'hat';
 
-//     user: 'SA',
-//     password: '<batata@BD>',
-//     database: 'TrotiNet',
-//     options: {
-//         trustServerCertificate: true, // Change to 'false' if not using a trusted certificate
-//     },
-// };
 const config = {
     server: 'mednat.ieeta.pt',
     port: 8101,
@@ -38,23 +31,22 @@ app.get('/', (req, res) => {
 /* USER AUTHENTICATION */
 app.post('/post_login', async (req,res)=>{
     const {username, password} = req.body
-    console.log("EEEE")
-    // const result = await app.locals.db.query('SELECT dbo.LoginUser('+ username +', ' + password + ') AS Result')
-    // res.json(result.recordset[0].Result)
-    
-    // const { username, password } = req.body;
-    // let query1 = await app.locals.db.query(`select id from UAuthentication where username='${username}' and upass='${password}'; `);
-    // if( query1.recordsets[0].length!=1 ) { res.send({status:'error', message:'Wrong username or password.'});return; }
-    // let token = hat();
-    // let query2 = await app.locals.db.query(`update UAuthentication set utoken='${token}' where id=${query1.recordsets[0][0].id}`);
-    // res.send({status:"ok",token});
+    console.log(req.body)
+
+});
+
+app.post('/deleteClient', async (req,res)=>{
+    const {client} = req.body
+    const resp = await app.locals.db.query('exec deleteClient @nif = ' + client);
+
 });
 
 app.post('/post_room', async (req,res) => {
     console.log(req.body)
     const randomInt = Math.floor(Math.random() * 100) + 1;
     const {name, area, height, style, client, designer, type} = req.body
-    const resp = await app.locals.db.query('insert into Design_Rooms (id, IName, Area, Height, Style_Code, Client_NIF, Designer_Code, TypeProduct) Values (' + randomInt + ', ' + name + ', ' + area + ', ' + height + ', ' + style + ', ' + client + ', ' + designer + ', ' + type + ');')
+    const resp = await app.locals.db.
+    query('insert into Design_Rooms (id, IName, Area, Height, Style_Code, Client_NIF, Designer_Code, TypeProduct) Values (' + randomInt + ', ' + name + ', ' + area + ', ' + height + ', ' + style + ', ' + client + ', ' + designer + ', ' + type + ');')
 })
 
 app.get('/firms', async (req,res)=>{
@@ -97,6 +89,13 @@ app.post('/clients', async (req,res)=>{
     res.json(resp.recordset);
 });
 
+app.get('/getclients', async (req,res)=>{
+    // const {employee} = req.body;
+    const resp = await app.locals.db.query('select IName, Person_NIF from Design_Person join Design_Client on NIF = Person_NIF ')
+    console.log(resp)
+    res.json(resp.recordset);
+});
+
 app.post('/styles', async (req,res)=>{
     const {employee} = req.body;
     const resp = await app.locals.db.query('select IName, Style_Code from Design_TypeStyle join (select * from Design_Style where Firm_NIF =  (Select Firm_NIF from Design_Designer Where EmployeeCode = ' + employee + ')) as F on Style_Code = F.Code')
@@ -125,82 +124,6 @@ app.post('/post_register_designer', async (req,res)=>{
     const resp = await app.locals.db.query('insert into Design_Person (Cellphone, IName, NIF, IPassword)\n values (3, e, 5, p);')
     const r = await app.locals.db.query('insert into Design_Designer (EmployeeCode, Person_NIF, Firm_NIF, NumberOfClients, Salary) values ('+ employee + ', ' + nif + ', ' + firm + ', ' + 0 + ', ' + salary + ');')
     console.log(req.body)
-});
-
-/* USER PROFILE */
-app.post('/post_profile', async (req,res)=>{
-    const {username,utoken} = req.body;
-    let query2 = await app.locals.db.query(`select username, name, phone, email, postalZip,region, country from Users INNER JOIN UAuthentication ON Users.id=UAuthentication.id where UAuthentication.username='${username}' and UAuthentication.utoken='${utoken}'`)
-    console.log(query2)
-    res.send(query2.recordset[0])
-})
-app.post('/post_profile_edit', async (req,res) => {
-    const {username,utoken,name,phone,email,postalZip,region,country} = req.body;
-    let query1 = await app.locals.db.query(`select id from UAuthentication where username='${username}' and utoken='${utoken}';`)
-    let id = query1.recordset[0].id;
-    let query2 = await app.locals.db.query(`update Users set name='${name}', phone='${phone}', email='${email}', postalZip='${postalZip}', region='${region}', country='${country}'`);
-})
-app.post('/post_profile_delete', async (req,res) => {
-    const {username,utoken} = req.body;
-    let query1 = await app.locals.db.query(`select id from UAuthentication where username='${username}' and utoken='${utoken}';`)
-    let id = query1.recordset[0].id;
-    let query2 = await app.locals.db.query(`delete from UAuthentication where id=${id}`)
-    let query3 = await app.locals.db.query(`delete from Users where id=${id}`)
-    res.send({status:'ok'})
-})
-
-/* CHAT ROUTES */
-app.post('/post_my_chats', async (req,res)=>{
-    const {username,utoken} = req.body;
-    console.log(username,utoken)
-    let query1 = await app.locals.db.query(`select Tgroups.group_name,Tgroups.group_id from (TGroups INNER JOIN TGroupsMembers ON Tgroups.group_id=TGroupsMembers.group_id) INNER JOIN UAuthentication on TGroupsMembers.user_id=UAuthentication.id where UAuthentication.username='${username}'`);
-    let ret = [];
-    for( let chat of query1.recordset ) {
-        if( chat.group_name=="" ) {
-            let query2 = await app.locals.db.query(`select UAuthentication.id,UAuthentication.username from UAuthentication INNER JOIN TGroupsMembers ON UAuthentication.id=TGroupsMembers.user_id where TGroupsMembers.group_id=${chat.group_id};`);
-            chat.group_name = query2.recordset.find(e=>e.username!=username).username
-        }
-        ret.push( {...chat} )
-    }
-    res.send(ret)
-})
-app.post('/post_my_messages', async (req,res)=>{
-    // TODO: verify if user can read this messages
-    const {group_id} = req.body;
-    let query1 = await app.locals.db.query(`select * from Messages INNER JOIN UAuthentication ON Messages.user_id=UAuthentication.id where group_id=${group_id}`);
-    // console.log(query1.recordset)
-    res.send(query1.recordset);
-})
-app.post('/post_send_message', async (req,res)=>{
-    // TODO: verify if user can read this messages
-    const {username,utoken,msg_text,group_id} = req.body;
-    let query1 = await app.locals.db.query(`select id from UAuthentication where username='${username}';`);
-    let id = query1.recordset[0].id;
-    let query2 = await app.locals.db.query(`insert into Messages (msg_text,group_id,user_id) values ('${msg_text}',${group_id},${id})`);
-    res.send({})
-})
-app.post('/post_new_chat', async (req,res)=>{
-    const {username,utoken,title,usernames} = req.body;
-    let query1 = await app.locals.db.query(`INSERT INTO TGroups (group_name) VALUES ('${title}');select SCOPE_IDENTITY() as id;`);
-    usernames.forEach(async e => {
-        let query2 = await app.locals.db.query(`select id from UAuthentication where username='${e}'`)
-        let query3 = await app.locals.db.query(`insert into TGroupsMembers (group_id, user_id) VALUES (${query1.recordset[0].id}, ${query2.recordset[0].id})`)
-    });
-    res.send({status:"ok"})
-})
-app.post('/post_delete_chat', async (req,res)=>{
-    const {username,utoken,group_id} = req.body;
-    let query1 = await app.locals.db.query(`delete from TGroups where group_id=${group_id};`);
-    res.send({status:"ok"})
-})
-
-// create a view table for the user
-app.post('/post_view_table', async (req,res)=>{
-    const {username,utoken,table_name} = req.body;
-    let query1 = await app.locals.db.query(`select id from UAuthentication where username='${username}';`);
-    let id = query1.recordset[0].id;
-    let query2 = await app.locals.db.query(`select * from ${table_name} where user_id=${id};`);
-    res.send(query2.recordset)
 });
 
 app.get('/search', (req, res) => {
